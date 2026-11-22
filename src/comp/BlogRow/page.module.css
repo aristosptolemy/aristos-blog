@@ -4,6 +4,10 @@
   gap: 1.5rem;
 }
 
+.thumbnail {
+  max-width: 160px;
+}
+
 .categoryNameArea {
   display: flex;
   gap: 1rem;
