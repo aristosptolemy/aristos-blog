@@ -1,5 +1,4 @@
 import styles from '../../page.module.css';
-import { getAllPages } from '@/lib/microcms';
 
 import {
   getPages,
@@ -12,10 +11,6 @@ import BlogRow from '@/comp/BlogRow/BlogRow';
 import Link from 'next/link';
 
 import PageNumbers from '@pagenumbers/pageNumbers'
-import { BlogPagesNum } from '@lib/CommonData'
-
-const PER_PAGE = BlogPagesNum
-
 
 export async function generateStaticParams() {
   const pages = await getPages();

@@ -12,20 +12,6 @@ export const client = createClient({
 });
 
 
-export const getAllPages = cache(async (): Promise<blogPage[]> => {
-  const articles = await client.getAllContents<blogPage>({
-    endpoint: 'blogs',
-    queries: {
-      depth: 1,
-    },
-    customRequestInit: {
-      cache: 'no-store'
-    },
-  });
-  return articles;
-});
-
-
 export type pages = {
   contents: blogPage[];
   totalCount: number;
