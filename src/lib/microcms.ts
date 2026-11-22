@@ -24,7 +24,7 @@ export const BlogLimit = 10;
 async function fetchMicroCMS<T>(
   endpoint: string,
   queries: Record<string, string | number>,
-  tags: string[]
+  _tags?: string[]
 ): Promise<T> {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(queries)) {
@@ -35,7 +35,7 @@ async function fetchMicroCMS<T>(
     `https://${process.env.MICROCMS_SERVICE_DOMAIN}.microcms.io/api/v1/${endpoint}?${params}`,
     {
       headers: { 'X-MICROCMS-API-KEY': process.env.MICROCMS_API_KEY! },
-      next: { tags },
+      next: { revalidate: 60 },
     }
   );
 
