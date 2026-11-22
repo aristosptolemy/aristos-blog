@@ -27,6 +27,8 @@ export async function POST(request: NextRequest) {
   } catch {
     // ボディが空の場合などでも一覧タグだけは確実にパージする
     revalidateTag('posts', 'max');
+    revalidateTag('categories', 'max');
+    revalidatePath('/', 'layout');
     return NextResponse.json({ revalidated: true });
   }
 }
