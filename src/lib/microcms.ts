@@ -1,5 +1,6 @@
 // src/lib/microcms.ts
 import { cache } from 'react';
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { blogPage, Category } from '@/types/microcmsType';
 
 export type pages = {
@@ -20,22 +21,42 @@ type CategoryPages = CategoryWithCount & {
 
 export const BlogLimit = 10;
 
-// 共通の microCMS fetch ヘルパー（確実に Next.js / OpenNext のタグキャッシュと連動する）
+const CACHE_PREFIX = 'microcms_cache:';
+
+// 共通の microCMS fetch ヘルパー（Cloudflare KV に無期限キャッシュし、Webhook 受信時のみ削除する）
 async function fetchMicroCMS<T>(
   endpoint: string,
-  queries: Record<string, string | number>,
-  _tags?: string[]
+  queries: Record<string, string | number>
 ): Promise<T> {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(queries)) {
     params.set(key, String(value));
   }
 
+  const cacheKey = `${CACHE_PREFIX}${endpoint}?${params.toString()}`;
+
+  let kv: KVNamespace | undefined;
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    kv = (env as { NEXT_INC_CACHE_KV?: KVNamespace }).NEXT_INC_CACHE_KV;
+  } catch {
+    kv = undefined;
+  }
+
+  // 1. KV にキャッシュがあれば API を叩かず即座に返す（更新がない限り API 消費ゼロ）
+  if (kv) {
+    const cached = await kv.get<T>(cacheKey, 'json');
+    if (cached !== null) {
+      return cached;
+    }
+  }
+
+  // 2. KV にない場合（初回または Webhook で削除された直後）のみ microCMS API を叩く
   const res = await fetch(
     `https://${process.env.MICROCMS_SERVICE_DOMAIN}.microcms.io/api/v1/${endpoint}?${params}`,
     {
       headers: { 'X-MICROCMS-API-KEY': process.env.MICROCMS_API_KEY! },
-      next: { revalidate: 10 },
+      cache: 'no-store',
     }
   );
 
@@ -43,7 +64,14 @@ async function fetchMicroCMS<T>(
     throw new Error(`microCMS fetch failed: ${res.status} ${endpoint}`);
   }
 
-  return res.json();
+  const data = (await res.json()) as T;
+
+  // 3. 取得した最新データを KV に無期限保存する
+  if (kv) {
+    await kv.put(cacheKey, JSON.stringify(data));
+  }
+
+  return data;
 }
 
 export const getPages = cache(async (
@@ -63,14 +91,13 @@ export const getPages = cache(async (
     queries.filters = `category[equals]${categoryId}`;
   }
 
-  return fetchMicroCMS<pages>('blogs', queries, ['posts']);
+  return fetchMicroCMS<pages>('blogs', queries);
 });
 
 export const getAllCategories = cache(async (): Promise<Category[]> => {
   const data = await fetchMicroCMS<{ contents: Category[] }>(
     'categories',
-    { limit: 100 },
-    ['categories']
+    { limit: 100 }
   );
   return data.contents;
 });
@@ -86,8 +113,7 @@ export const getCategoriesWithCount = cache(
           {
             filters: `category[equals]${cat.id}`,
             limit: 0,
-          },
-          ['posts']
+          }
         );
 
         return {
@@ -115,8 +141,7 @@ export const getTopCategorySections = cache(async (): Promise<CategoryPages[]> =
           filters: `category[equals]${cat.id}`,
           limit: BlogLimit,
           orders: '-publishedAt',
-        },
-        ['posts']
+        }
       );
 
       return {
@@ -134,8 +159,7 @@ export const getPostBySlug = cache(async (slug: string): Promise<blogPage | null
     {
       filters: `slug[equals]${slug}`,
       limit: 1,
-    },
-    [`post-${slug}`, 'posts']
+    }
   );
 
   return data.contents[0] ?? null;
