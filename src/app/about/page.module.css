@@ -1,0 +1,27 @@
+
+
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+
+.main p {
+  margin: 1rem;
+  font-size: 1.12rem;
+}
+
+
+.main ul {
+  padding-left: 1.5em; /* 点が収まる分の余白を内側に確保 */
+  margin-top: 8px;
+}
+
+.main li {
+  line-height: 1.8;
+  font-size: 1.12rem;
+}

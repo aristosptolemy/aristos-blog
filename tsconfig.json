@@ -19,7 +19,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@header/*": ["./src/comp/Header/*"],
+      "@side/*": ["./src/comp/Side/*"],
+      "@pagenumbers/*": ["./src/comp/PageNumbers/*"],
+      "@lib/*": ["./src/lib/*"]
     }
   },
   "include": [

@@ -1,0 +1,46 @@
+.mainArea {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.categoryNameArea {
+  display: flex;
+  gap: 1rem;
+}
+
+.categoryName {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.pageItem {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #f1f5f9;
+  transition: background-color 0.3s ease;
+}
+
+.pageItem:hover {
+  background-color: #1e293b;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.createdAt {
+  margin-left: 1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+}
+

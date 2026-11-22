@@ -1,0 +1,62 @@
+.main {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  gap: 1rem;
+  position: sticky;
+  top: 1rem;
+  max-width: 300px;
+}
+
+@media (max-width: 768px) {
+  .main {
+    display: none;
+  }
+}
+
+.profileArea {
+  display: flex;
+  align-items: end;
+  gap: 1rem;
+  font-size: 1.25rem;
+}
+
+.profileIcon {
+  border-radius: 50%;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #334155;
+  background-color: #334155;
+  gap: 1px;
+}
+
+.categoryLink {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease
+  ;
+  color: #94a3b8;
+  text-decoration: none;
+  background-color: #0f172a;
+}
+
+.categoryLink:hover {
+  background-color: #1e293b;
+  color: #f8fafc;
+}
+
+.nameArea {
+  display: flex;
+  gap: 0.5rem;
+}
+
