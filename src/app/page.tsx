@@ -31,8 +31,8 @@ export default async function Home() {
                   <Image
                     src={page.eyecatch.url}
                     alt=""
-                    width={150}
-                    height={100}
+                    width={page.eyecatch.width}
+                    height={page.eyecatch.height}
                     className={styles.thumbnail}
                     unoptimized
                   />
