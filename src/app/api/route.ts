@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
       revalidateTag(`post-${slug}`, 'max');
     }
 
+    revalidateTag('categories', 'max');
     revalidateTag('posts', 'max');
 
     return NextResponse.json({ revalidated: true, slug: slug ?? null });
