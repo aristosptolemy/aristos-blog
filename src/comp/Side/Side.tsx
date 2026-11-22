@@ -20,14 +20,15 @@ export default async function Side() {
         <Image
           src='/images/profileIcon.jpg'
           alt=""
-          width={80}
-          height={80}
+          width={50}
+          height={50}
           className={styles.profileIcon}
           unoptimized
         />
         <div className={styles.Name}>
-          名前: {name}
+          {name}
         </div>
+        
       </div>
       <div className={styles.Introduction}>
         {Introduction}
