@@ -56,7 +56,12 @@ export default async function Page({
     notFound();
   }
 
-  const lastUpdate = new Date(page.updatedAt).toLocaleString()
+  const lastUpdate = new Date(page.updatedAt).toLocaleDateString('ja-JP', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).replaceAll('/', '-')
 
   return (
     <div className={styles.main}>
