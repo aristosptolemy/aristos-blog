@@ -19,9 +19,7 @@ export const getAllPages = cache(async (): Promise<blogPage[]> => {
       depth: 1,
     },
     customRequestInit: {
-      cache: process.env.NODE_ENV === 'development'
-        ? 'no-store'
-        : 'force-cache',
+      cache: 'no-store'
     },
   });
   return articles;
