@@ -8,6 +8,8 @@ import Header from '@header/Header'
 import Side from '@side/Side'
 
 
+export const revalidate = 86400;
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
