@@ -36,6 +36,9 @@ async function fetchMicroCMS<T>(
   const cacheKey = `${CACHE_PREFIX}${endpoint}?${params.toString()}`;
 
   let kv: KVNamespace | undefined;
+  
+  
+  
   try {
     const { env } = await getCloudflareContext({ async: true });
     kv = (env as { NEXT_INC_CACHE_KV?: KVNamespace }).NEXT_INC_CACHE_KV;
@@ -47,10 +50,12 @@ async function fetchMicroCMS<T>(
   if (kv) {
     const cached = await kv.get<T>(cacheKey, 'json');
     if (cached !== null) {
+      console.log(`[KV HIT] ${cacheKey}`);
       return cached;
     }
   }
 
+  console.log(`[microCMS API FETCH] ${cacheKey}`);
   // 2. KV にない場合（初回または Webhook で削除された直後）のみ microCMS API を叩く
   const res = await fetch(
     `https://${process.env.MICROCMS_SERVICE_DOMAIN}.microcms.io/api/v1/${endpoint}?${params}`,
