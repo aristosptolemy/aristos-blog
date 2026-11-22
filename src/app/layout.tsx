@@ -8,7 +8,7 @@ import Header from '@header/Header'
 import Side from '@side/Side'
 
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

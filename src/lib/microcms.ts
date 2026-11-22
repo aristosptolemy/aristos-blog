@@ -35,7 +35,7 @@ async function fetchMicroCMS<T>(
     `https://${process.env.MICROCMS_SERVICE_DOMAIN}.microcms.io/api/v1/${endpoint}?${params}`,
     {
       headers: { 'X-MICROCMS-API-KEY': process.env.MICROCMS_API_KEY! },
-      next: { revalidate: 60 },
+      next: { revalidate: 10 },
     }
   );
 
