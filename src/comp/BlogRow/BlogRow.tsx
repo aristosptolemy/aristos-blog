@@ -18,17 +18,25 @@ export default function BlogRow({
         className={styles.pageItem}
         href={`/${pageData.category.slug}/${pageData.slug}`}
       >
-        <Image
-          src={pageData.eyecatch.url}
-          alt=""
-          width={150}
-          height={100}
-          className={styles.thumbnail}
-          unoptimized
-        />
+        <div className={styles.thumbnailArea}>
+          <Image
+            src={pageData.eyecatch.url}
+            alt=""
+            width={pageData.eyecatch.width}
+            height={pageData.eyecatch.height}
+            className={styles.thumbnail}
+            unoptimized
+          />
+        </div>
+        
         <div className={styles.titleArea}>
           <div className={styles.createdAt}>
-            {new Date(pageData.createdAt).toLocaleDateString()}
+            {new Date(pageData.createdAt).toLocaleDateString('ja-JP', {
+              timeZone: 'Asia/Tokyo',
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            }).replaceAll('/', '-')}
           </div>
           <div className={styles.title}>{pageData.title}</div>
         </div>
