@@ -15,18 +15,5 @@
       "id": "358ed35cd47d46ffa070a24684806cce"
     }
   ],
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "NEXT_CACHE_DO_QUEUE",
-        "class_name": "DOQueueHandler"
-      }
-    ]
-  },
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_sqlite_classes": ["DOQueueHandler"]
-    }
-  ]
+  
 }
