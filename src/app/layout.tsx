@@ -35,9 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Side/>
             <main className={styles.main}>{children}</main>
           </div>
-        
         </AppRouterCacheProvider>
-        
       </body>
     </html>
   );

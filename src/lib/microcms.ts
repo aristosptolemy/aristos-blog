@@ -37,8 +37,6 @@ async function fetchMicroCMS<T>(
 
   let kv: KVNamespace | undefined;
   
-  
-  
   try {
     const { env } = await getCloudflareContext({ async: true });
     kv = (env as { NEXT_INC_CACHE_KV?: KVNamespace }).NEXT_INC_CACHE_KV;

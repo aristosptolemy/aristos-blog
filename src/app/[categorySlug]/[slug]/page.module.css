@@ -160,9 +160,11 @@
 /* セル共通 */
 .richText th,
 .richText td {
-  border: 1px solid #ddd;
+  border: 1px solid #334155;
   vertical-align: middle;
   padding: 0.25rem 0.75rem;
+  background-color: #0f172a;
+  color: #e2e8f0;
 }
 
 .richText th p,
@@ -172,15 +174,15 @@
 
 /* ヘッダー */
 .richText th {
-  background-color: #f0f2f5;
+  background-color: #1e293b;
   font-size: 1.125rem;
   font-weight: 600;
-  color: #333;
+  color: #f8fafc;
 }
 
 /* 偶数行の背景 */
 .richText tbody tr:nth-child(even) {
-  background-color: #fafafa;
+  background-color: #162032;
 }
 
 /* ホバー */
