@@ -23,6 +23,8 @@ export const BlogLimit = 10;
 
 const CACHE_PREFIX = 'microcms_cache:';
 
+const isDev = process.env.NODE_ENV === 'development';
+
 // 共通の microCMS fetch ヘルパー（Cloudflare KV に無期限キャッシュし、Webhook 受信時のみ削除する）
 async function fetchMicroCMS<T>(
   endpoint: string,
@@ -37,11 +39,13 @@ async function fetchMicroCMS<T>(
 
   let kv: KVNamespace | undefined;
   
-  try {
-    const { env } = await getCloudflareContext({ async: true });
-    kv = (env as { NEXT_INC_CACHE_KV?: KVNamespace }).NEXT_INC_CACHE_KV;
-  } catch {
-    kv = undefined;
+  if (!isDev) {
+    try {
+      const { env } = await getCloudflareContext({ async: true });
+      kv = (env as { NEXT_INC_CACHE_KV?: KVNamespace }).NEXT_INC_CACHE_KV;
+    } catch {
+      kv = undefined;
+    }
   }
 
   // 1. KV にキャッシュがあれば API を叩かず即座に返す（更新がない限り API 消費ゼロ）

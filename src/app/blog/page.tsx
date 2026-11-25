@@ -21,7 +21,6 @@ export default async function Blogs() {
   const totalPages = Math.ceil(Pages.totalCount / Pages.limit);
   
   const endPages = totalPages <= 3 ? totalPages : 3
-  console.log(Pages)
 
   return (
     <div className={styles.main}>

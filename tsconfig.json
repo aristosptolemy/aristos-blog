@@ -23,7 +23,8 @@
       "@header/*": ["./src/comp/Header/*"],
       "@side/*": ["./src/comp/Side/*"],
       "@pagenumbers/*": ["./src/comp/PageNumbers/*"],
-      "@lib/*": ["./src/lib/*"]
+      "@lib/*": ["./src/lib/*"],
+      "@comp/*": ["./src/comp/*"]
     }
   },
   "include": [
