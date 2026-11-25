@@ -36,6 +36,8 @@ export const commentSend = async (
   userName: string,
   pageID: string
 ) => {
+  if (comment == '') return
+
   let name = userName
   if (name == '') {
     name = '名無し'
