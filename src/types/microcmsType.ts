@@ -8,6 +8,7 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
+  description: string;
 }
 
 
@@ -17,7 +18,9 @@ export interface blogPage {
   category: Category;
   slug: string;
   title: string;
+  description: string;
   content?: string;
+  publishedAt: string;
   updatedAt: string;
   createdAt: string;
 }

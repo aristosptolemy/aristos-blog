@@ -8,6 +8,8 @@ import Header from '@header/Header'
 import Footer from '@footer/Footer'
 import Side from '@side/Side'
 
+import { SITE_CONFIG } from '@config/site';
+
 
 export const dynamic = 'force-dynamic';
 
@@ -22,8 +24,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "aristosブログ",
-  description: "適当にやっていきます",
+  metadataBase: new URL(SITE_CONFIG.url),
+  title: {
+    default: SITE_CONFIG.name,
+    template: `%s | ${SITE_CONFIG.name}`,
+  },
+  description: SITE_CONFIG.description,
+  openGraph: {
+    siteName: SITE_CONFIG.name,
+    locale: SITE_CONFIG.locale,
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -25,7 +25,8 @@
       "@side/*": ["./src/comp/Side/*"],
       "@pagenumbers/*": ["./src/comp/PageNumbers/*"],
       "@lib/*": ["./src/lib/*"],
-      "@comp/*": ["./src/comp/*"]
+      "@comp/*": ["./src/comp/*"],
+      "@config/*": ["./src/app/config/*"]
     }
   },
   "include": [

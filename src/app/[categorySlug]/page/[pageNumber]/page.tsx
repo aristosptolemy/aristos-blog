@@ -1,4 +1,5 @@
-
+import type { Metadata } from 'next';
+import { SITE_CONFIG } from '@config/site';
 import styles from '../../page.module.css';
 import { notFound } from 'next/navigation';
 
@@ -11,6 +12,13 @@ import {
 import BlogRow from '@/comp/BlogRow/BlogRow';
 import Link from 'next/link';
 import PageNumbers from '@pagenumbers/pageNumbers'
+
+
+type Props = {
+  params: Promise<{
+    categorySlug: string;
+  }>;
+};
 
 export async function generateStaticParams() {
   const categories = await getTopCategorySections()
@@ -26,6 +34,56 @@ export async function generateStaticParams() {
     }
   }
   return params;
+}
+
+// メタデータの生成
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { categorySlug } = await params;
+
+  const categories = await getAllCategories();
+  const category = categories.find(
+    (row) => row.slug === categorySlug
+  );
+
+  if (!category) {
+    return {
+      title: 'カテゴリが見つかりません',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const title = `${category.name}の記事一覧`;
+  const description = category.description?.trim()
+    || `${SITE_CONFIG.name}の${category.name}に関する記事一覧です。`;
+
+  return {
+    title,
+    description,
+
+    alternates: {
+      canonical: `/${categorySlug}`,
+    },
+
+    openGraph: {
+      type: 'website',
+      title,
+      description,
+      url: `${SITE_CONFIG.url}/${categorySlug}`,
+      siteName: SITE_CONFIG.name,
+      locale: SITE_CONFIG.locale,
+    },
+
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
+  };
 }
 
 export default async function CategoryPaginatedPage({

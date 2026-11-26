@@ -7,6 +7,8 @@ import Link from 'next/link';
 import CommentWrapper from '@comp/Comment/CommentWrapper'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
+import { SITE_CONFIG } from '@config/site';
+
 type Props = {
   params: Promise<{
     categorySlug: string;
@@ -15,26 +17,64 @@ type Props = {
 };
 
 // 1. 動的メタデータ（タイトルやOGPの設定）
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+const BASE_URL = SITE_CONFIG.url;
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
   const { categorySlug, slug } = await params;
   const post = await getPostBySlug(slug);
 
-  // 記事がない、またはURLのカテゴリーが記事本来のカテゴリーと違う場合
   if (!post || post.category.slug !== categorySlug) {
     return {
       title: '記事が見つかりません',
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  const url = `${BASE_URL}/${categorySlug}/${slug}`;
+
   return {
     title: post.title,
+    description: post.description,
+
+    // 正規URL
+    alternates: {
+      canonical: url,
+    },
+
+    // OGP
     openGraph: {
+      type: 'article',
       title: post.title,
-      images: post.eyecatch ? [post.eyecatch.url] : [],
+      url,
+      siteName: 'Logtsumu Blog',
+      locale: 'ja_JP',
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      images: post.eyecatch
+        ? [
+            {
+              url: post.eyecatch.url,
+              alt: post.title,
+            },
+          ]
+        : [],
+    },
+
+    // Twitterカード
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      images: post.eyecatch
+        ? [post.eyecatch.url]
+        : [],
     },
   };
 }
-
 
 
 export default async function Page({
@@ -65,9 +105,53 @@ export default async function Page({
     day: '2-digit',
   }).replaceAll('/', '-')
 
+  const articleUrl = `${BASE_URL}/${categorySlug}/${slug}`;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    description: page.description,
+
+    headline: page.title,
+    url: articleUrl,
+
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': articleUrl,
+    },
+
+    image: page.eyecatch
+      ? [page.eyecatch.url]
+      : undefined,
+
+    datePublished: page.publishedAt,
+    dateModified: page.updatedAt,
+
+    author: {
+      '@type': 'Person',
+      name: 'アリストス',
+      url: `${BASE_URL}/about`,
+    },
+
+    publisher: {
+      '@type': 'Organization',
+      name: 'Logtsumu Blog',
+      url: BASE_URL,
+    },
+
+    articleSection: page.category.name,
+    inLanguage: 'ja',
+  };
+
   return (
     <div className={styles.main}>
-      <div className={styles.content}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
+      <article className={styles.content}>
         <div className={styles.topArea}>
           <div className={styles.linkList}>
             <Link
@@ -93,9 +177,9 @@ export default async function Page({
 
         </div>
         
-        <div className={styles.Title}>
+        <h1 className={styles.Title}>
           {page.title}
-        </div>
+        </h1>
         
         <div className={styles.ContentArea}>
           {page.content && (
@@ -107,7 +191,7 @@ export default async function Page({
             />
           )}
         </div>
-      </div>
+      </article>
       <CommentWrapper id={page.id} />
 
     </div>
