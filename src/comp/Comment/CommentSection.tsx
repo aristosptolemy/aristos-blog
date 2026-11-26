@@ -17,9 +17,6 @@ export default function CommentArea ({
 }: CommentArea) {
 
   const [comments, setComments] = useState<any[]>([]);
-
-  console.log(id)
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -38,7 +35,6 @@ export default function CommentArea ({
     const fetchComments = async () => {
       try {
         const data = await commentGet(id);
-        console.log(data)
 
         if (!cancelled) {
           setComments(data);
