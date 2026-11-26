@@ -5,6 +5,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 import styles from './layout.module.css'
 import Header from '@header/Header'
+import Footer from '@footer/Footer'
 import Side from '@side/Side'
 
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Side/>
             <main className={styles.main}>{children}</main>
           </div>
+          <Footer/>
         </AppRouterCacheProvider>
       </body>
     </html>

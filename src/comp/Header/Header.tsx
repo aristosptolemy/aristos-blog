@@ -1,34 +1,20 @@
-// src/components/Header.tsx
-import Link from "next/link";
-import styles from "./Header.module.css";
+import Link from 'next/link'
+import styles from './Header.module.css'
+import { getAllCategories } from '@lib/microcms'
+import HeaderNav from './HeaderNav'
 
-export default function Header() {
+export default async function Header() {
+  const categories = await getAllCategories()
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
         <Link href="/" className={styles.logo}>
-          aristos-blog
+          Logtsumu-blog
         </Link>
 
-        <nav className={styles.nav}>
-          <Link href="/about" className={styles.link}>
-            About
-          </Link>
-          
-          <Link href="/blog" className={styles.link}>
-            Blog
-          </Link>
-
-          <a
-            href="https://github.com/aristosptolemy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-          >
-            GitHub
-          </a>
-        </nav>
+        <HeaderNav categories={categories} />
       </div>
     </header>
-  );
+  )
 }

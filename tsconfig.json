@@ -21,6 +21,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@header/*": ["./src/comp/Header/*"],
+      "@footer/*": ["./src/comp/Footer/*"],
       "@side/*": ["./src/comp/Side/*"],
       "@pagenumbers/*": ["./src/comp/PageNumbers/*"],
       "@lib/*": ["./src/lib/*"],

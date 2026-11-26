@@ -70,7 +70,7 @@ export default function CommentArea ({
               className={styles.name}
               name='name'
               type='text'
-              placeholder="名前（任意）"
+              placeholder="ハンドルネーム（任意）"
               aria-label="投稿者名"
             />
             <button
