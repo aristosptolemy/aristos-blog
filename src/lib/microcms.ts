@@ -109,6 +109,44 @@ export const getAllCategories = cache(async (): Promise<Category[]> => {
   return data.contents;
 });
 
+export type SitemapPage = {
+  slug: string;
+  updatedAt: string;
+  category: {
+    slug: string;
+  };
+};
+
+export const getAllPages = cache(async (): Promise<SitemapPage[]> => {
+  const limit = 100;
+  let offset = 0;
+
+  const articles: SitemapPage[] = [];
+
+  while (true) {
+    const res = await fetchMicroCMS<{
+      contents: SitemapPage[];
+      totalCount: number;
+    }>('blogs', {
+      limit,
+      offset,
+      depth: 1,
+      fields: 'slug,updatedAt,category.slug',
+      orders: 'createdAt',
+    });
+
+    articles.push(...res.contents);
+
+    offset += res.contents.length;
+
+    if (offset >= res.totalCount || res.contents.length === 0) {
+      break;
+    }
+  }
+
+  return articles;
+});
+
 export const getCategoriesWithCount = cache(
   async (): Promise<CategoryWithCount[]> => {
     const categories = await getAllCategories();
