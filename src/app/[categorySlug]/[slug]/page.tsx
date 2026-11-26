@@ -4,8 +4,7 @@ import { getPostBySlug } from '@/lib/microcms';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
-import CommentArea from '@comp/Comment/CommentSection'
-
+import CommentWrapper from '@comp/Comment/CommentWrapper'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 type Props = {
@@ -109,9 +108,8 @@ export default async function Page({
           )}
         </div>
       </div>
-      <CommentArea
-        id={page.id}
-      />
+      <CommentWrapper id={page.id} />
+
     </div>
   )
 }
