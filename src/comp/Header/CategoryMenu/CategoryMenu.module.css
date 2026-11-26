@@ -17,6 +17,10 @@
   cursor: pointer;
 }
 
+.trigger:hover {
+  color: #38bdf8;
+}
+
 .arrow {
   transition: transform 0.2s ease;
 }
