@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getTopCategorySections } from '@/lib/microcms';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
+import Advertisement from '@ad/Advertisement'
 
 import {
   name,
@@ -47,6 +48,13 @@ export default async function Side() {
             <ArrowForwardIosIcon/>
           </Link>
         ))}
+      </div>
+      <div>
+        <Advertisement
+          adId="fd690341df50d566e4fc0b6fe19ee749"
+          width={160}
+          height={600}
+        />
       </div>
     </aside>
   )

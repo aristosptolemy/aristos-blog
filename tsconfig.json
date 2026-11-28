@@ -26,7 +26,8 @@
       "@pagenumbers/*": ["./src/comp/PageNumbers/*"],
       "@lib/*": ["./src/lib/*"],
       "@comp/*": ["./src/comp/*"],
-      "@config/*": ["./src/app/config/*"]
+      "@config/*": ["./src/app/config/*"],
+      "@ad/*": ["./src/comp/Advertisement/*"]
     }
   },
   "include": [
